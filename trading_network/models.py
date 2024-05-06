@@ -58,6 +58,14 @@ class TradingNetwork(MPTTModel):
         """
         return f'{self.title} ({self.type_of_link})'
 
+    def save(self, *args, **kwargs):
+        """
+        Метод для ограничения количества уровней вложенности.
+        """
+        if self.parent.level == 2:
+            raise ValueError('Структура сети может состоять максимум из 3х уровней!')
+        super(TradingNetwork, self).save(*args, **kwargs)
+
     class MPTTMeta:
         order_insertion_by = ['title']
 
