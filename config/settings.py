@@ -33,8 +33,11 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_simplejwt',
+    'mptt',
+    'django_mptt_admin',
 
     'users',
+    'trading_network',
 
 ]
 
