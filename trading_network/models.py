@@ -1,4 +1,5 @@
 from django.db import models
+from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -7,8 +8,8 @@ class Product(models.Model):
     Класс для товара.
     """
 
-    manufacturer = TreeForeignKey('TradingNetwork', on_delete=models.PROTECT, related_name='product',
-                                  verbose_name='Производитель')
+    manufacturer = models.ForeignKey('TradingNetwork', on_delete=models.PROTECT, related_name='product',
+                                     verbose_name='Производитель')
     title = models.CharField(max_length=100, verbose_name='Название товара')
     model = models.CharField(max_length=150, verbose_name='Модель товара')
     release_date = models.DateField(verbose_name='Дата выхода')
@@ -22,6 +23,13 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+
+class TradingNetworkManager(TreeManager):
+
+    def viewable(self, level=0):
+        queryset = self.get_queryset().filter(level=level)
+        return queryset
 
 
 class TradingNetwork(MPTTModel):
@@ -52,19 +60,13 @@ class TradingNetwork(MPTTModel):
     street = models.CharField(max_length=50, verbose_name='Улица')
     number_of_house = models.IntegerField(verbose_name='Номер дома')
 
+    objects = TradingNetworkManager()
+
     def __str__(self):
         """
         Строковое представление модели TradingNetwork.
         """
         return f'{self.title} ({self.type_of_link})'
-
-    def save(self, *args, **kwargs):
-        """
-        Метод для ограничения количества уровней вложенности.
-        """
-        if self.parent.level == 2:
-            raise ValueError('Структура сети может состоять максимум из 3х уровней!')
-        super(TradingNetwork, self).save(*args, **kwargs)
 
     class MPTTMeta:
         order_insertion_by = ['title']

@@ -24,7 +24,7 @@ class TradingNetworkAdmin(DjangoMpttAdmin):
         Метод для получения ссылки на объект поставщика.
         """
         if not obj.parent_id:
-            return f'Поставщика нет'
+            return 'Поставщика нет'
         else:
             app_label = obj._meta.app_label
             model_label = obj._meta.model_name
