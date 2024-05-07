@@ -1,4 +1,5 @@
-from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, status, response
 
 from trading_network.models import TradingNetwork
 from trading_network.serializers import TradingNetworkListSerializer, TradingNetworkSerializer
@@ -29,6 +30,15 @@ class TradingNetworkUpdateAPIView(generics.UpdateAPIView):
     serializer_class = TradingNetworkSerializer
     queryset = TradingNetwork.objects.all()
 
+    def update(self, request, *args, **kwargs):
+        """
+        Метод запрещает изменять поле задолженность перед поставщиком.
+        """
+        if 'debt' in request.data:
+            return response.Response({'error': 'Запрет на изменение поля задолженность'},
+                                     status=status.HTTP_400_BAD_REQUEST)
+        return super().update(request, *args, **kwargs)
+
 
 class TradingNetworkListAPIView(generics.ListAPIView):
     """
@@ -37,6 +47,8 @@ class TradingNetworkListAPIView(generics.ListAPIView):
 
     serializer_class = TradingNetworkListSerializer
     queryset = TradingNetwork.objects.viewable()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ('country',)
 
 
 class TradingNetworkDetailAPIView(generics.RetrieveAPIView):
