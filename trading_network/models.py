@@ -49,7 +49,7 @@ class TradingNetwork(MPTTModel):
 
     title = models.CharField(max_length=100, verbose_name='Название')
     type_of_link = models.CharField(max_length=23, choices=TYPE)
-    parent = TreeForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='children',
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children',
                             db_index=True, verbose_name='Поставщик')
     debt = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name='Задолженность')
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -58,7 +58,7 @@ class TradingNetwork(MPTTModel):
     country = models.CharField(max_length=50, verbose_name='Страна')
     city = models.CharField(max_length=50, verbose_name='Город')
     street = models.CharField(max_length=50, verbose_name='Улица')
-    number_of_house = models.IntegerField(verbose_name='Номер дома')
+    number_of_house = models.PositiveIntegerField(verbose_name='Номер дома')
 
     objects = TradingNetworkManager()
 
@@ -67,6 +67,17 @@ class TradingNetwork(MPTTModel):
         Строковое представление модели TradingNetwork.
         """
         return f'{self.title} ({self.type_of_link})'
+
+    def save(self, *args, **kwargs):
+        """
+        Метод для ограничения количества уровней вложенности.
+        """
+        if self.parent:
+            if self.parent.level >= 2:
+                raise ValueError('Структура сети может состоять максимум из 3х уровней!')
+            super(TradingNetwork, self).save(*args, **kwargs)
+        else:
+            super(TradingNetwork, self).save(*args, **kwargs)
 
     class MPTTMeta:
         order_insertion_by = ['title']

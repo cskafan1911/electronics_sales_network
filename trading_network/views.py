@@ -11,15 +11,20 @@ class TradingNetworkCreateAPIView(generics.CreateAPIView):
     """
 
     serializer_class = TradingNetworkSerializer
+    queryset = TradingNetwork.objects.all()
 
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
         """
-        Метод для ограничения количества уровней вложенности (максимум 3 уровня).
+        Метод проверяет на превышение вложенности сети и сохраняет объект сети.
         """
-        link_of_network = serializer.save()
-        if link_of_network.parent.level == 2:
-            link_of_network.delete()
-            raise ValueError('Структура сети может состоять максимум из 3х уровней!')
+        if 'parent' in request.data:
+
+            parent = TradingNetwork.objects.get(pk=request.data.get('parent'))
+
+            if parent.level >= 2:
+                return response.Response({'error': 'Структура сети может состоять максимум из 3х уровней!'},
+                                         status=status.HTTP_400_BAD_REQUEST)
+        return super().create(request, *args, **kwargs)
 
 
 class TradingNetworkUpdateAPIView(generics.UpdateAPIView):
@@ -32,11 +37,19 @@ class TradingNetworkUpdateAPIView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         """
-        Метод запрещает изменять поле задолженность перед поставщиком.
+        Метод запрещает изменять поле задолженность перед поставщиком и проверяет на превышение вложенности сети
+        и сохраняет объект сети.
         """
         if 'debt' in request.data:
             return response.Response({'error': 'Запрет на изменение поля задолженность'},
                                      status=status.HTTP_400_BAD_REQUEST)
+
+        if 'parent' in request.data:
+            parent = TradingNetwork.objects.get(pk=request.data.get('parent'))
+
+            if parent.level >= 2:
+                return response.Response({'error': 'Структура сети может состоять максимум из 3х уровней!'},
+                                         status=status.HTTP_400_BAD_REQUEST)
         return super().update(request, *args, **kwargs)
 
 
@@ -62,7 +75,6 @@ class TradingNetworkDetailAPIView(generics.RetrieveAPIView):
         """
         Метод получает объект сети и все его вложенные объекты.
         """
-
         level_id = TradingNetwork.objects.get(pk=self.kwargs.get('pk')).level
         queryset = TradingNetwork.objects.viewable(level_id)
         return queryset
