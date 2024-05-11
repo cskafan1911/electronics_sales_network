@@ -1,0 +1,162 @@
+[
+  {
+    "model": "trading_network.product",
+    "pk": 2,
+    "fields": {
+      "manufacturer": 36,
+      "title": "Samsung S-series",
+      "model": "S10",
+      "release_date": "2020-05-08"
+    }
+  },
+  {
+    "model": "trading_network.product",
+    "pk": 3,
+    "fields": {
+      "manufacturer": 56,
+      "title": "iPhone",
+      "model": "iPhone 15 Pro",
+      "release_date": "2023-05-08"
+    }
+  },
+  {
+    "model": "trading_network.tradingnetwork",
+    "pk": 36,
+    "fields": {
+      "title": "Samsung",
+      "type_of_link": "FACTORY",
+      "parent": null,
+      "debt": "0.00",
+      "date_create": "2024-05-08T12:27:05.655Z",
+      "email": null,
+      "country": "Южная Корея",
+      "city": "Сеул",
+      "street": "Сеульская",
+      "number_of_house": 1,
+      "lft": 1,
+      "rght": 8,
+      "tree_id": 4,
+      "level": 0
+    }
+  },
+  {
+    "model": "trading_network.tradingnetwork",
+    "pk": 37,
+    "fields": {
+      "title": "Мвидео",
+      "type_of_link": "RETAIL",
+      "parent": 36,
+      "debt": "100.00",
+      "date_create": "2024-05-08T12:27:48.618Z",
+      "email": null,
+      "country": "Россия",
+      "city": "Москва",
+      "street": "Ленинсикий проспект",
+      "number_of_house": 1,
+      "lft": 2,
+      "rght": 5,
+      "tree_id": 4,
+      "level": 1
+    }
+  },
+  {
+    "model": "trading_network.tradingnetwork",
+    "pk": 39,
+    "fields": {
+      "title": "ИП Василий",
+      "type_of_link": "INDIVIDUAL_ENTREPRENEUR",
+      "parent": 37,
+      "debt": "0.00",
+      "date_create": "2024-05-08T12:29:09.880Z",
+      "email": null,
+      "country": "Россия",
+      "city": "Серпухов",
+      "street": "Строителей",
+      "number_of_house": 8,
+      "lft": 3,
+      "rght": 4,
+      "tree_id": 4,
+      "level": 2
+    }
+  },
+  {
+    "model": "trading_network.tradingnetwork",
+    "pk": 51,
+    "fields": {
+      "title": "Эльдорадо",
+      "type_of_link": "RETAIL",
+      "parent": 36,
+      "debt": "99.99",
+      "date_create": "2024-05-08T12:51:48.880Z",
+      "email": null,
+      "country": "Россия",
+      "city": "Москва",
+      "street": "Ленинсикий проспект",
+      "number_of_house": 24,
+      "lft": 6,
+      "rght": 7,
+      "tree_id": 4,
+      "level": 1
+    }
+  },
+  {
+    "model": "trading_network.tradingnetwork",
+    "pk": 56,
+    "fields": {
+      "title": "Apple",
+      "type_of_link": "FACTORY",
+      "parent": null,
+      "debt": "0.00",
+      "date_create": "2024-05-08T13:02:04.128Z",
+      "email": null,
+      "country": "США",
+      "city": "Сан-Франциско",
+      "street": "Первая",
+      "number_of_house": 1,
+      "lft": 1,
+      "rght": 6,
+      "tree_id": 3,
+      "level": 0
+    }
+  },
+  {
+    "model": "trading_network.tradingnetwork",
+    "pk": 57,
+    "fields": {
+      "title": "Мвидео",
+      "type_of_link": "RETAIL",
+      "parent": 56,
+      "debt": "0.00",
+      "date_create": "2024-05-08T13:05:30.094Z",
+      "email": null,
+      "country": "Россия",
+      "city": "Подольск",
+      "street": "Строителей",
+      "number_of_house": 2,
+      "lft": 2,
+      "rght": 5,
+      "tree_id": 3,
+      "level": 1
+    }
+  },
+  {
+    "model": "trading_network.tradingnetwork",
+    "pk": 58,
+    "fields": {
+      "title": "ИП Дмитрий",
+      "type_of_link": "INDIVIDUAL_ENTREPRENEUR",
+      "parent": 57,
+      "debt": "0.00",
+      "date_create": "2024-05-08T13:06:10.125Z",
+      "email": null,
+      "country": "Россия",
+      "city": "Серпухов",
+      "street": "Сеульская",
+      "number_of_house": 3,
+      "lft": 3,
+      "rght": 4,
+      "tree_id": 3,
+      "level": 2
+    }
+  }
+]

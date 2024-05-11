@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'mptt',
     'django_mptt_admin',
     'django_filters',
-
     'users',
     'trading_network',
 
@@ -82,7 +81,6 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-
     }
 }
 
