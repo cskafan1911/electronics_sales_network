@@ -3,6 +3,7 @@ from rest_framework import generics, status, response
 
 from trading_network.models import TradingNetwork
 from trading_network.serializers import TradingNetworkListSerializer, TradingNetworkSerializer
+from trading_network.permissions import UserPermissions
 
 
 class TradingNetworkCreateAPIView(generics.CreateAPIView):
@@ -12,6 +13,7 @@ class TradingNetworkCreateAPIView(generics.CreateAPIView):
 
     serializer_class = TradingNetworkSerializer
     queryset = TradingNetwork.objects.all()
+    permission_classes = (UserPermissions,)
 
     def create(self, request, *args, **kwargs):
         """
@@ -34,6 +36,7 @@ class TradingNetworkUpdateAPIView(generics.UpdateAPIView):
 
     serializer_class = TradingNetworkSerializer
     queryset = TradingNetwork.objects.all()
+    permission_classes = (UserPermissions,)
 
     def update(self, request, *args, **kwargs):
         """
@@ -60,6 +63,7 @@ class TradingNetworkListAPIView(generics.ListAPIView):
 
     serializer_class = TradingNetworkListSerializer
     queryset = TradingNetwork.objects.viewable()
+    permission_classes = (UserPermissions,)
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ('country',)
 
@@ -70,6 +74,7 @@ class TradingNetworkDetailAPIView(generics.RetrieveAPIView):
     """
 
     serializer_class = TradingNetworkListSerializer
+    permission_classes = (UserPermissions,)
 
     def get_queryset(self, **kwargs):
         """
@@ -87,3 +92,4 @@ class TradingNetworkDeleteAPIView(generics.DestroyAPIView):
 
     queryset = TradingNetwork.objects.all()
     serializer_class = TradingNetworkSerializer
+    permission_classes = (UserPermissions,)
